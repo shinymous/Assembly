@@ -11,7 +11,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-//@JsonDeserialize(builder = DomainEvent.Builder.class)
 public class DomainEvent<T extends Payload,E extends EventType> {
 
     private UUID uuid;
@@ -22,6 +21,4 @@ public class DomainEvent<T extends Payload,E extends EventType> {
     private T payload;
     private E type;
 
-//    @JsonPOJOBuilder(withPrefix = "")
-//    public static class Builder<T extends Payload,E extends EventType> {}
 }

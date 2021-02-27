@@ -15,25 +15,25 @@ import javax.validation.Valid;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/assemblies")
-@Api(tags = "Assemblies")
-public class AssemblyController implements AssemblyRestController{
+@RequestMapping("/v1/topic")
+@Api(tags = "Topic")
+public class TopicController implements AssemblyRestController{
 
     private final TopicService topicService;
 
-    @PostMapping("/topic")
+    @PostMapping
     @ApiOperation(value = "Create a topic")
     public ResponseEntity<ResponseDTO<?>> createTopic(@Valid @RequestBody TopicDTO topicDTO) {
         return new ResponseEntity<>(topicService.saveTopic(topicDTO), HttpStatus.OK);
     }
 
-    @GetMapping("/topic/{name}")
+    @GetMapping
     @ApiOperation(value = "Find topic by name")
     public ResponseEntity<ResponseDTO<?>> findTopicByName(@RequestParam String name){
         return new ResponseEntity<>(topicService.findAllValidTopicByName(name), HttpStatus.OK);
     }
 
-    @PostMapping("topic/{id}/vote")
+    @PostMapping("/{id}/vote")
     @ApiOperation(value = "Vote on a topic")
     public ResponseEntity<ResponseDTO<?>> vote(@PathVariable Long id, @Valid @RequestBody VoteDTO voteDTO) {
         return new ResponseEntity<>(topicService.vote(id, voteDTO), HttpStatus.OK);

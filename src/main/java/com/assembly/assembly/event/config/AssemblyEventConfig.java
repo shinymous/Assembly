@@ -42,7 +42,7 @@ public class AssemblyEventConfig extends EventConfig {
 
     /**
      * Método que simula uma queue com binding na rota
-     * "event.vote_result" (para visualizar melhor os resultados)
+     * "event.vote_result" (para visualizar melhor o trabalho do exchange)
      * @return
      * @author Andrei Silva
      */
@@ -54,7 +54,7 @@ public class AssemblyEventConfig extends EventConfig {
         declarables.add(topic);
         declarables.add(voteResultQueue);
         declarables.add(BindingBuilder.bind(voteResultQueue)
-                .to(ExchangeBuilder.topicExchange(eventTopicName).build()).with("event.vote_result")
+                .to(ExchangeBuilder.topicExchange(eventTopicName).build()).with("event.topic_result")
                 .noargs());
         return new Declarables(declarables);
     }
