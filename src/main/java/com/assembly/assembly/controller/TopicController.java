@@ -24,7 +24,7 @@ public class TopicController implements AssemblyRestController{
     @PostMapping
     @ApiOperation(value = "Create a topic")
     public ResponseEntity<ResponseDTO<?>> createTopic(@Valid @RequestBody TopicDTO topicDTO) {
-        return new ResponseEntity<>(topicService.saveTopic(topicDTO), HttpStatus.OK);
+        return new ResponseEntity<>(topicService.saveTopic(topicDTO), HttpStatus.CREATED);
     }
 
     @GetMapping

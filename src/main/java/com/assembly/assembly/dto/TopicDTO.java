@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -24,6 +25,7 @@ public class TopicDTO {
     private Long id;
     @NotNull(message = "Name can not be null. Please insert a value")
     private String name;
+    @Future
     @NotNull(message = "endLocalDateTime can not be null. Please insert a value")
     @ApiModelProperty(value = "yyyy-MM-dd HH:mm", example = "2000-01-01 00:00")
     @JsonDeserialize(using = CustomLocalDateTimeDeserializer.class)
