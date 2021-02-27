@@ -33,13 +33,6 @@ public class TopicController implements AssemblyRestController{
         return new ResponseEntity<>(topicService.findAllValidTopicByName(name), HttpStatus.OK);
     }
 
-//    @GetMapping("/topic")
-//    @ApiOperation(value = "Find topic by name")
-//    public ResponseEntity<?> teste() {
-//        topicService.teste();
-//        return new ResponseEntity<>("abc", HttpStatus.OK);
-//    }
-
     @PostMapping("/{id}/vote")
     @ApiOperation(value = "Vote on a topic")
     public ResponseEntity<ResponseDTO<?>> vote(@PathVariable Long id, @Valid @RequestBody VoteDTO voteDTO) {
