@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @With
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TopicDTO {
 
     @ApiModelProperty(hidden = true)

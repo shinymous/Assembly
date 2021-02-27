@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface TopicRepository extends CrudRepository<Topic, Long> {
 
-    @Query(value = "select t from Topic t where t.name like %?1% and t.endDate > CURRENT_TIMESTAMP ")
+    @Query(value = "select t from Topic t where t.name like %?1% " +
+            "and t.endDate > CURRENT_TIMESTAMP and t.closed = false ")
     List<Topic> findAllValidByLikeName(String name);
 }

@@ -33,6 +33,7 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo())
+                .groupName("v1")
                 .host(host)
                 .pathProvider(new BasePathAwareRelativePathProvider(basePath));
     }
