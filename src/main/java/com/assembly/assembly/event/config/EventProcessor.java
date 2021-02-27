@@ -18,6 +18,12 @@ public class EventProcessor {
     private final EventConfig eventConfig;
     private final RabbitTemplate rabbitTemplate;
 
+    /**
+     * Listener que publica mensagem
+     * @param event
+     * @param <T>
+     * @param <E>
+     */
     @EventListener(DomainEvent.class)
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT,fallbackExecution = true)
     public <T extends Payload,E extends EventType> void onEvent(DomainEvent<T,E> event) {
