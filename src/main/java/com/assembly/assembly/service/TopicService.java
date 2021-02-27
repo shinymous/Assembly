@@ -135,7 +135,7 @@ public class TopicService {
     public ResponseDTO<List<TopicDTO>> findAllValidTopicByName(String name){
         return ResponseDTO.<List<TopicDTO>>builder()
                 .status(HttpStatus.OK.value())
-                .data(repository.findAllValidByLikeName(name).stream()
+                .data(repository.findAllValidByLikeName(name, LocalDateTime.now()).stream()
                         .map(topic -> TopicDTO.builder()
                                 .id(topic.getId())
                                 .name(topic.getName())

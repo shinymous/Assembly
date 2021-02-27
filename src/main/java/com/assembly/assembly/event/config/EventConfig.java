@@ -28,6 +28,13 @@ public abstract class EventConfig {
         return new Declarables( topicExchange );
     }
 
+    /**
+     * Configuração do rabbitTemplate
+     * (altera conversor de mensagem para o conversor criado
+     * no método producerJackson2MessageConverter)
+     * @param connectionFactory
+     * @return
+     */
     @Bean
     @ConditionalOnMissingBean
     RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
@@ -36,6 +43,11 @@ public abstract class EventConfig {
         return rabbitTemplate;
     }
 
+    /**
+     * Configura consersor de mensagem
+     * ObjectMapper adicionado modulo do JavaTimeModule
+     * @return
+     */
     @Bean
     @ConditionalOnMissingBean
     Jackson2JsonMessageConverter producerJackson2MessageConverter() {
