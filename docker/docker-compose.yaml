@@ -1,0 +1,86 @@
+version: '3'
+
+services:
+  adsim-redis:
+    command:
+      - 'redis-server --appendonly yes'
+    container_name: adsim-redis
+    entrypoint:
+      - docker-entrypoint.sh
+    environment:
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - GOSU_VERSION=1.11
+      - REDIS_VERSION=5.0.6
+      - REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-5.0.6.tar.gz
+      - REDIS_DOWNLOAD_SHA=6624841267e142c5d5d5be292d705f8fb6070677687c5aad1645421a936d22b3
+    hostname: 810c4aa005ac
+    image: redis:5
+    ipc: shareable
+    logging:
+      driver: json-file
+      options: {}
+    mac_address: 02:42:ac:11:00:04
+    ports:
+      - 6379:6379/tcp
+    restart: always
+    working_dir: /data
+  mysqldocker_mysql_1:
+    command:
+      - --lower-case-table-names=1
+    container_name: mysqldocker_mysql_1
+    environment:
+      - MYSQL_ROOT_PASSWORD=live0102
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - GOSU_VERSION=1.7
+      - MYSQL_MAJOR=5.7
+      - MYSQL_VERSION=5.7.27-1debian9
+    image: mysql:5.7
+    networks:
+      - mysql-compose-network
+    ports:
+      - 3366:3306/tcp
+    restart: always
+    volumes:
+      - ./mysqldocker_adsim-mysql-data:/var/lib/mysql:rw
+  rabbitmq-dev:
+    command:
+      - rabbitmq-server
+    container_name: rabbitmq-dev
+    entrypoint:
+      - docker-entrypoint.sh
+    environment:
+      - PATH=/opt/rabbitmq/sbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - OPENSSL_VERSION=1.1.1d
+      - OPENSSL_SOURCE_SHA256=1e3a91bc1f9dfce01af26026f856e064eab4c8ee0a8f457b5ae30b40b8b711f2
+      - 'OPENSSL_PGP_KEY_IDS=0x8657ABB260F056B1E5190839D9C4D26D0E604491 0x5B2545DAB21995F4088CEFAA36CEE4DEB00CFE33
+        0xED230BEC4D4F2518B9D7DF41F0DB4D21C1D35231 0xC1F33DD8CE1D4CC613AF14DA9195C48241FBF7DD
+        0x7953AC1FBC3DC8B3B292393ED5E9E43F7DF9EE8C 0xE5E52560DD91C556DDBDA5D02064C53641C25E5D'
+      - OTP_VERSION=22.1.7
+      - OTP_SOURCE_SHA256=f0f8ad265121e4170598d0339ebba4e77f04d31db894d5e70c5a953544f62a47
+      - RABBITMQ_DATA_DIR=/var/lib/rabbitmq
+      - RABBITMQ_VERSION=3.8.1
+      - RABBITMQ_PGP_KEY_ID=0x0A9AF2115F4687BD29803A206B73A36E6026DFCA
+      - RABBITMQ_HOME=/opt/rabbitmq
+      - RABBITMQ_LOGS=-
+      - RABBITMQ_SASL_LOGS=-
+      - HOME=/var/lib/rabbitmq
+      - LANG=C.UTF-8
+      - LANGUAGE=C.UTF-8
+      - LC_ALL=C.UTF-8
+    hostname: 93d8a3c44c7a
+    image: rabbitmq:3-management
+    ipc: shareable
+    logging:
+      driver: json-file
+      options: {}
+    mac_address: 02:42:ac:11:00:03
+    ports:
+      - 15672:15672/tcp
+      - 5672:5672/tcp
+    restart: always
+version: "3"
+networks:
+  outside:
+    external: true
+  mysql-compose-network:
+    driver: bridge
