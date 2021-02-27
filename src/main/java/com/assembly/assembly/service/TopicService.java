@@ -59,6 +59,7 @@ public class TopicService {
                 .name(topicDTO.getName())
                 .description(topicDTO.getDescription())
                 .endDate(topicDTO.getEndLocalDateTime())
+                .closed(false)
                 .build());
         this.schedulingToCloseTopic(topic);
         return ResponseDTO.<TopicDTO>builder()
