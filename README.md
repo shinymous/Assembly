@@ -5,6 +5,7 @@
 
 * Na raiz do projeto rode o comando "cd docker && docker-compose up" para subir o mysql e o rabbitmq local
 * Na raiz do projeto rode o comando "mvn clean install"
+* Execute os scripts no banco local
 * Rode o projeto Spring local com profile default
 
 ### Senhas, usuarios e portas estarão em src/resoruces/application-dev.properties ###
