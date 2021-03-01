@@ -75,8 +75,8 @@ public class TopicService {
     @Scheduled(cron = "0 0 0 * * ?")
     public void closeTopicThatHasEndDateForToday(){
         LocalDateTime initialTomorrowDate = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
-        LocalDateTime endTommorowDate = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
-        List<Topic> allOpenTopicByRangeDate = repository.findAllOpenTopicByRangeDate(initialTomorrowDate, endTommorowDate);
+        LocalDateTime endTomorrowDate = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
+        List<Topic> allOpenTopicByRangeDate = repository.findAllOpenTopicByRangeDate(initialTomorrowDate, endTomorrowDate);
         allOpenTopicByRangeDate.forEach(this::schedulingToCloseTopic);
     }
 
