@@ -72,6 +72,11 @@ public class TopicService {
                 .build();
     }
 
+    /**
+     * Todos os dias às 0:00
+     * busca os Topics a serem fechados no dia
+     * e adiciona no taskExecutor
+     */
     @Scheduled(cron = "0 0 0 * * ?")
     public void closeTopicThatHasEndDateForToday(){
         LocalDateTime initialTomorrowDate = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
