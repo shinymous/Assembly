@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -79,9 +80,9 @@ public class TopicService {
      */
     @Scheduled(cron = "0 0 0 * * ?")
     public void closeTopicThatHasEndDateForToday(){
-        LocalDateTime initialTomorrowDate = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
-        LocalDateTime endTomorrowDate = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
-        List<Topic> allOpenTopicByRangeDate = repository.findAllOpenTopicByRangeDate(initialTomorrowDate, endTomorrowDate);
+        LocalDateTime initialDate = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime endDate = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
+        List<Topic> allOpenTopicByRangeDate = repository.findAllOpenTopicByRangeDate(initialDate, endDate);
         allOpenTopicByRangeDate.forEach(this::schedulingToCloseTopic);
     }
 
@@ -130,6 +131,16 @@ public class TopicService {
                         .result(result)
                         .build()));
         log.info("Topic: " + topic.getId() + " publicada");
+    }
+
+    @PostConstruct
+    public void init(){
+        LocalDateTime initialDate = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime endDate = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
+        List<Topic> allOpenTopicExpiredDate = repository.findAllOpenTopicByEndDate(LocalDateTime.now());
+        allOpenTopicExpiredDate.forEach(this::closeTopic);
+        List<Topic> allOpenTopicByRangeDate = repository.findAllOpenTopicByRangeDate(initialDate, endDate);
+        allOpenTopicByRangeDate.forEach(this::schedulingToCloseTopic);
     }
 
     /**
