@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,11 +62,22 @@ public class TopicService {
                 .endDate(topicDTO.getEndLocalDateTime())
                 .closed(false)
                 .build());
-        this.schedulingToCloseTopic(topic);
+        LocalDateTime initialTomorrowDate = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
+        if(topic.getEndDate().isEqual(initialTomorrowDate)
+                || topic.getEndDate().isBefore(initialTomorrowDate))
+            this.schedulingToCloseTopic(topic);
         return ResponseDTO.<TopicDTO>builder()
                 .data(topicDTO.withId(topic.getId()))
                 .message(sourceMessageService.getMessageFromUserLocale("success"))
                 .build();
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void closeTopicThatHasEndDateForToday(){
+        LocalDateTime initialTomorrowDate = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime endTommorowDate = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
+        List<Topic> allOpenTopicByRangeDate = repository.findAllOpenTopicByRangeDate(initialTomorrowDate, endTommorowDate);
+        allOpenTopicByRangeDate.forEach(this::schedulingToCloseTopic);
     }
 
     /**
