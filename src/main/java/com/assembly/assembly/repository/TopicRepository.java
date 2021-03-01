@@ -12,4 +12,7 @@ public interface TopicRepository extends CrudRepository<Topic, Long> {
             "and t.endDate > ?2 " +
             "and t.closed is false ")
     List<Topic> findAllValidByLikeName(String name, LocalDateTime now);
+
+    @Query(value = "select t from Topic t where t.endDate > ?1 and t.endDate < ?2 and t.closed is false")
+    List<Topic> findAllOpenTopicByRangeDate(LocalDateTime start, LocalDateTime end);
 }
