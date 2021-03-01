@@ -1,29 +1,6 @@
 version: '3'
 
 services:
-  adsim-redis:
-    command:
-      - 'redis-server --appendonly yes'
-    container_name: adsim-redis
-    entrypoint:
-      - docker-entrypoint.sh
-    environment:
-      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-      - GOSU_VERSION=1.11
-      - REDIS_VERSION=5.0.6
-      - REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-5.0.6.tar.gz
-      - REDIS_DOWNLOAD_SHA=6624841267e142c5d5d5be292d705f8fb6070677687c5aad1645421a936d22b3
-    hostname: 810c4aa005ac
-    image: redis:5
-    ipc: shareable
-    logging:
-      driver: json-file
-      options: {}
-    mac_address: 02:42:ac:11:00:04
-    ports:
-      - 6379:6379/tcp
-    restart: always
-    working_dir: /data
   mysqldocker_mysql_1:
     command:
       - --lower-case-table-names=1
